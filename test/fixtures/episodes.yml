@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  length: MyString
+  image_url: MyString
+  air_data: 2019-02-19
+  show_id: 1
+  season_id: 1
+
+two:
+  name: MyString
+  length: MyString
+  image_url: MyString
+  air_data: 2019-02-19
+  show_id: 1
+  season_id: 1
