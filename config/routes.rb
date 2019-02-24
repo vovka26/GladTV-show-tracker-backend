@@ -1,7 +1,11 @@
 Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
-      resources :shows, only: [:index, :show]
+
+      resources :shows
+
+      get '/apishows', to: 'shows#find_shows'
+      get '/apishows/:id', to: 'shows#show_details'
 
       get '/seasons/:showId', to: 'seasons#all_seasons'
       get '/seasons/:showId/:seasonId', to: 'seasons#season_data'

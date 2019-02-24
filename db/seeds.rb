@@ -6,13 +6,15 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-# Show.create()
+user = User.create(username: 'hey', password: 'hey', first_name: 'Vladimir', last_name: 'Deryuzhenko')
 
-# create_table "shows", force: :cascade do |t|
-#   t.string "title"
-#   t.integer "rating"
-#   t.string "genre"
-#   t.string "image_url"
-#   t.datetime "created_at", null: false
-#   t.datetime "updated_at", null: false
-# end
+show = Show.create(title: 'The Walking Dead', rating: 5, genre: 'Comedy', api_id: 43242342, image_url: 'http://')
+
+season = Season.create(season_number: 1, api_id: 423423423)
+
+episode = Episode.create(title: 'Episode 1', show_id: 1, season_id: 1, api_id: 321432)
+
+user.shows << show
+user.episodes << episode
+# episode.shows << show
+# episode.seasons << season
