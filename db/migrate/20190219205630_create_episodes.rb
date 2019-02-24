@@ -7,6 +7,7 @@ class CreateEpisodes < ActiveRecord::Migration[5.2]
       t.date :air_date
       t.integer :show_id
       t.integer :season_id
+      t.integer :api_id
 
       t.timestamps
     end

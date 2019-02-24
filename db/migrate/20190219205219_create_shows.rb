@@ -5,6 +5,7 @@ class CreateShows < ActiveRecord::Migration[5.2]
       t.integer :rating
       t.string :genre
       t.string :image_url
+      t.integer :api_id
 
       t.timestamps
     end

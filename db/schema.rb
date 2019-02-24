@@ -22,12 +22,14 @@ ActiveRecord::Schema.define(version: 2019_02_19_205712) do
     t.date "air_date"
     t.integer "show_id"
     t.integer "season_id"
+    t.integer "api_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "seasons", force: :cascade do |t|
     t.integer "season_number"
+    t.integer "api_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -37,6 +39,7 @@ ActiveRecord::Schema.define(version: 2019_02_19_205712) do
     t.integer "rating"
     t.string "genre"
     t.string "image_url"
+    t.integer "api_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
