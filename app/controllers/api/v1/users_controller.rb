@@ -2,8 +2,14 @@ class Api::V1::UsersController < ApplicationController
   def profile
     token = request.headers['Authentication'].split(' ')[1]
     payload = decode(token)
+    
+    @user = User.find(payload['user_id'])
 
-    render json: User.find(payload['user_id']), status: :accepted
+    render json: {
+      userData: @user,
+      success: true,
+      error: false
+    }, status: :accepted
   end
 
   def create
@@ -17,7 +23,10 @@ class Api::V1::UsersController < ApplicationController
         token: encode({ user_id: @user.id })
       }, status: :created
     else
-      render json: { error: @user.errors.full_messages }, status: :not_acceptable
+      rend
+      er json: {
+        error: @user.errors.full_messages },
+        status: :not_acceptable
     end
   end
 
