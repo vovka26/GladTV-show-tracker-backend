@@ -7,14 +7,15 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 user = User.create(username: 'hey', password: 'hey', first_name: 'Vladimir', last_name: 'Deryuzhenko')
+user2 = User.create(username: 'vlad', password: 'hey')
 
-show = Show.create(title: 'The Walking Dead', rating: 5, genre: 'Comedy', api_id: 43242342, image_url: 'http://')
+# show = Show.create(title: 'The Walking Dead', rating: 5, genre: 'Comedy', api_id: 43242342, image_url: 'http://')
+#
+# season = Season.create(season_number: 1, api_id: 423423423)
+#
+# episode = Episode.create(title: 'Episode 1', show_id: 1, season_id: 1, api_id: 321432)
 
-season = Season.create(season_number: 1, api_id: 423423423)
-
-episode = Episode.create(title: 'Episode 1', show_id: 1, season_id: 1, api_id: 321432)
-
-user.shows << show
-user.episodes << episode
+# user.shows << show
+# user.episodes << episode
 # episode.shows << show
 # episode.seasons << season

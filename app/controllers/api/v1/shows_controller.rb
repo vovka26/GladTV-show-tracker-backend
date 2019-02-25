@@ -1,9 +1,9 @@
 class Api::V1::ShowsController < ApplicationController
   before_action :set_show, only: [:show, :destroy]
-  before_action :find_user, only: [:create]
+  before_action :set_user, only: [:create, :index, :destroy]
 
   def index
-    @shows = Show.all
+    @shows = @user.shows
     render json: @shows
   end
 
@@ -15,16 +15,35 @@ class Api::V1::ShowsController < ApplicationController
     # @show = Show.where(show_params).first_or_create do |show|
     #   show.title = show_params
     # end
-    @show = Show.create(show_params)
-    if @show.valid?
-      @user.shows << @show
-      render json: {
-        message: 'added',
-        success: true,
-        error: false,
-        showData: @show
-      }
+    @show = Show.where(show_params).first_or_create do |show|
+      show.title = show_params[:title]
+      show.rating = show_params[:rating]
+      show.genre = show_params[:genre]
+      show.image_url = show_params[:image_url]
+      show.api_id = show_params[:api_id]
     end
+
+      if !@user.shows.include?(@show)
+        @user.shows << @show
+        render json: {
+          message: 'added',
+          success: true,
+          error: false,
+          showData: @show
+        }
+      elsif @user.shows.include?(@show)
+        render json: {
+          message: 'movie is already in the list',
+          success: false,
+          error: true
+        }
+      else
+        render json: {
+          message: 'show is not valid',
+          success: false,
+          error: @show.errors.full_messages
+        }
+      end
   end
 
   # t.string "title"
@@ -34,6 +53,24 @@ class Api::V1::ShowsController < ApplicationController
   # t.integer "api_id"
 
   def destroy
+    # byebug
+    if @user.shows.include?(@show)
+      deleted_show = @user.shows.delete(@show)
+    end
+    if deleted_show
+      render json: {
+        message: 'show has been deleted',
+        success: true,
+        error: false,
+        showData: deleted_show
+      }
+    else
+      render json: {
+        message: 'user doesnt following this show',
+        success: false,
+        error: true
+      }
+    end
 
   end
 
@@ -84,7 +121,7 @@ class Api::V1::ShowsController < ApplicationController
     @show = Show.find(params[:id])
   end
 
-  def find_user
+  def set_user
     token = request.headers['Authentication'].split(' ')[1]
     payload = decode(token)
     @user = User.find(payload['user_id'])
