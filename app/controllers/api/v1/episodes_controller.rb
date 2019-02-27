@@ -9,9 +9,9 @@ class Api::V1::EpisodesController < ApplicationController
   end
 
   def create
-    byebug
+    # byebug
     @season = Season.find_or_create_by(api_id: episode_params[:season_id])
-    @show = Show.find_by(api_id: params[:show_id])
+    @show = Show.find_by(api_id: episode_params[:show_id])
 
     @episode = Episode.where(episode_params).first_or_create do |episode|
       episode.title = episode_params[:title]
@@ -19,7 +19,7 @@ class Api::V1::EpisodesController < ApplicationController
       episode.image_url = episode_params[:image_url]
       episode.api_id = episode_params[:api_id]
       episode.show_id = @show.id
-      episode.season_id = episode_params[:season_id]
+      episode.season_id = @season.id
     end
 
     @user.episodes << @episode
@@ -33,14 +33,13 @@ class Api::V1::EpisodesController < ApplicationController
   end
 
   def get_episodes_for_season
-    byebug
+    # byebug
     show_episodes = @user.episodes.find_all {|ep| ep.show_id == @show.id}
-    byebug
-    season_episodes = show_episodes.find_all {|ep| ep.season_id == params[:season_id].to_i}
+    # season_episodes = show_episodes.find_all {|ep| ep.season_id == Season.find_by(api_id: params[:season_id]).id}
     render json: {
       success: true,
       error: false,
-      episodes: season_episodes
+      episodes: show_episodes
     }
   end
 
@@ -58,7 +57,7 @@ class Api::V1::EpisodesController < ApplicationController
       }
     else
       render json: {
-        message: 'user doesnt follow this episode',
+        message: 'user didnt watch this episode',
         success: false,
         error: true
       }
@@ -80,10 +79,11 @@ class Api::V1::EpisodesController < ApplicationController
   end
 
   def set_season
-    @season = Season.find_by()
+    @season = Season.find_by(api_id: params[:season_id])
   end
 
   def set_episode
+    # byebug
     @episode = Episode.find_by(api_id: params[:id])
   end
 
