@@ -2,7 +2,16 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
 
-      resources :shows
+      resources :shows, only: [:index, :create]
+      resources :episodes, only: [:index, :create]
+
+      get '/shows/:show_id/:season_id/episodes', to: 'episodes#get_episodes_for_season'
+
+      delete '/shows/:id', to: 'shows#delete_from_users_watchlist'
+
+      delete '/episodes/:id', to: 'episodes#delete_from_users_watchlist'
+
+      # delete '/shows/episodes/:id', to: 'episodes#delete_from_users_watchlist'
 
       get '/apishows', to: 'shows#find_shows'
       get '/apishows/:id', to: 'shows#show_details'
@@ -16,7 +25,6 @@ Rails.application.routes.draw do
       get '/profile', to: 'users#profile'
       post '/newUser', to: 'users#create'
 
-      # post '/watchlist', to: 'shows#create'
     end
   end
 end

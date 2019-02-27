@@ -7,7 +7,7 @@ class Api::V1::SeasonsController < ApplicationController
   # end
 
   def all_seasons
-
+    
   end
 
   def season_data

@@ -1,20 +1,17 @@
 class Api::V1::ShowsController < ApplicationController
-  before_action :set_show, only: [:show, :destroy]
-  before_action :set_user, only: [:create, :index, :destroy]
+  before_action :set_show, only: [:delete_from_users_watchlist]
+  before_action :set_user, only: [:create, :index, :delete_from_users_watchlist]
 
   def index
     @shows = @user.shows
+    # byebug
     render json: @shows
   end
 
-  def show
 
-  end
-
+  # checks if the show is already in DB. if it is, only adds show to user's watchlist array.
+  # if the show is not in DB, it creates a record and adds to watchlist
   def create
-    # @show = Show.where(show_params).first_or_create do |show|
-    #   show.title = show_params
-    # end
     @show = Show.where(show_params).first_or_create do |show|
       show.title = show_params[:title]
       show.rating = show_params[:rating]
@@ -31,6 +28,7 @@ class Api::V1::ShowsController < ApplicationController
           error: false,
           showData: @show
         }
+
       elsif @user.shows.include?(@show)
         render json: {
           message: 'movie is already in the list',
@@ -46,14 +44,8 @@ class Api::V1::ShowsController < ApplicationController
       end
   end
 
-  # t.string "title"
-  # t.integer "rating"
-  # t.string "genre"
-  # t.string "image_url"
-  # t.integer "api_id"
-
-  def destroy
-    # byebug
+  # deletes show from the user's watchlist
+  def delete_from_users_watchlist
     if @user.shows.include?(@show)
       deleted_show = @user.shows.delete(@show)
     end
@@ -66,7 +58,7 @@ class Api::V1::ShowsController < ApplicationController
       }
     else
       render json: {
-        message: 'user doesnt following this show',
+        message: 'user doesnt follow this show',
         success: false,
         error: true
       }
