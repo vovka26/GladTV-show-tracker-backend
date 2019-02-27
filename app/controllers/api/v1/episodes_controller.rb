@@ -4,12 +4,13 @@ class Api::V1::EpisodesController < ApplicationController
   before_action :set_episode, only: [:delete_from_users_watchlist]
 
   def index
-    shows = @user.episodes
-    render json: shows
+    # shows = @user.episodes
+    # render json: shows
   end
 
   def create
-    @season = Season.find_or_create_by(id: episode_params[:season_id])
+    byebug
+    @season = Season.find_or_create_by(api_id: episode_params[:season_id])
     @show = Show.find_by(api_id: params[:show_id])
 
     @episode = Episode.where(episode_params).first_or_create do |episode|
@@ -74,12 +75,16 @@ class Api::V1::EpisodesController < ApplicationController
     params.require(:episode).permit(:title, :image_url, :air_date, :api_id, :show_id, :season_id)
   end
 
-  def set_episode
-    @episode = Episode.find_by(api_id: params[:id])
-  end
-
   def set_show
     @show = Show.find_by(api_id: params[:show_id])
+  end
+
+  def set_season
+    @season = Season.find_by()
+  end
+
+  def set_episode
+    @episode = Episode.find_by(api_id: params[:id])
   end
 
   def set_user
