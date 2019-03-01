@@ -17,7 +17,6 @@ ActiveRecord::Schema.define(version: 2019_02_19_205712) do
 
   create_table "episodes", force: :cascade do |t|
     t.string "title"
-    t.time "length"
     t.string "image_url"
     t.date "air_date"
     t.integer "show_id"
@@ -28,7 +27,6 @@ ActiveRecord::Schema.define(version: 2019_02_19_205712) do
   end
 
   create_table "seasons", force: :cascade do |t|
-    t.integer "season_number"
     t.integer "api_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

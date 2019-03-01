@@ -1,17 +1,13 @@
 class Api::V1::EpisodesController < ApplicationController
   before_action :set_user, only: [:index, :create, :delete_from_users_watchlist, :get_episodes_for_season]
-  before_action :set_show, only: [:get_episodes_for_season]
+  before_action :set_show, only: [:get_episodes_for_season, :create]
   before_action :set_episode, only: [:delete_from_users_watchlist]
 
   def index
-    # shows = @user.episodes
-    # render json: shows
   end
 
   def create
-    # byebug
     @season = Season.find_or_create_by(api_id: episode_params[:season_id])
-    @show = Show.find_by(api_id: episode_params[:show_id])
 
     @episode = Episode.where(episode_params).first_or_create do |episode|
       episode.title = episode_params[:title]
@@ -33,21 +29,27 @@ class Api::V1::EpisodesController < ApplicationController
   end
 
   def get_episodes_for_season
-    # byebug
-    show_episodes = @user.episodes.find_all {|ep| ep.show_id == @show.id}
-    # season_episodes = show_episodes.find_all {|ep| ep.season_id == Season.find_by(api_id: params[:season_id]).id}
-    render json: {
-      success: true,
-      error: false,
-      episodes: show_episodes
-    }
+    if @show
+      show_episodes = @user.episodes.find_all {|ep| ep.show_id == @show.id}
+      render json: {
+        success: true,
+        error: false,
+        episodes: show_episodes
+      }
+    else
+      render json: {
+        success: false,
+        error: true
+      }
+    end
+
   end
 
   def delete_from_users_watchlist
-    byebug
-    if @user.episodes.include?(@episode)
+    if @user.episodes.find {|ep| ep.api_id == @episode.api_id}
       deleted_episode = @user.episodes.delete(@episode)
     end
+
     if deleted_episode
       render json: {
         message: 'episode has been deleted',
@@ -83,7 +85,6 @@ class Api::V1::EpisodesController < ApplicationController
   end
 
   def set_episode
-    # byebug
     @episode = Episode.find_by(api_id: params[:id])
   end
 

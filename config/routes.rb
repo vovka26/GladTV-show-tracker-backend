@@ -5,7 +5,7 @@ Rails.application.routes.draw do
       resources :shows, only: [:index, :create]
       resources :episodes, only: [:create]
 
-      get '/shows/:show_id/:season_id/episodes', to: 'episodes#get_episodes_for_season'
+      get '/shows/:show_id/episodes', to: 'episodes#get_episodes_for_season'
 
       delete '/shows/:id', to: 'shows#delete_from_users_watchlist'
 

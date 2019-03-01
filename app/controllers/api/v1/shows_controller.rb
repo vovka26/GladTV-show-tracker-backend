@@ -4,7 +4,6 @@ class Api::V1::ShowsController < ApplicationController
 
   def index
     @shows = @user.shows
-    # byebug
     render json: @shows
   end
 
