@@ -3,10 +3,6 @@ class Api::V1::EpisodesController < ApplicationController
   before_action :set_show, only: [:get_episodes_for_season, :create]
   before_action :set_season, only: [:create]
 
-  def index
-    render json: Episode.all
-  end
-
   def create
     @episode = Episode.find_by(api_id: params[:api_id])
     if @episode
