@@ -1,21 +1,25 @@
 class Api::V1::EpisodesController < ApplicationController
-  before_action :set_user, only: [:index, :create, :delete_from_users_watchlist, :get_episodes_for_season]
+  before_action :set_user, only: [:create, :delete_from_users_watchlist, :get_episodes_for_season]
   before_action :set_show, only: [:get_episodes_for_season, :create]
-  before_action :set_episode, only: [:delete_from_users_watchlist]
+  before_action :set_season, only: [:create]
 
   def index
+    render json: Episode.all
   end
 
   def create
-    @season = Season.find_or_create_by(api_id: episode_params[:season_id])
-
-    @episode = Episode.where(episode_params).first_or_create do |episode|
-      episode.title = episode_params[:title]
-      episode.air_date = episode_params[:air_date]
-      episode.image_url = episode_params[:image_url]
-      episode.api_id = episode_params[:api_id]
-      episode.show_id = @show.id
-      episode.season_id = @season.id
+    @episode = Episode.find_by(api_id: params[:api_id])
+    if @episode
+      @episode
+    else
+      @episode = Episode.where(episode_params).first_or_create do |episode|
+        episode.title = episode_params[:title]
+        episode.air_date = episode_params[:air_date]
+        episode.image_url = episode_params[:image_url]
+        episode.api_id = episode_params[:api_id]
+        episode.show_id = @show.id
+        episode.season_id = @season.id
+      end
     end
 
     @user.episodes << @episode
@@ -46,8 +50,9 @@ class Api::V1::EpisodesController < ApplicationController
   end
 
   def delete_from_users_watchlist
-    if @user.episodes.find {|ep| ep.api_id == @episode.api_id}
-      deleted_episode = @user.episodes.delete(@episode)
+    @episode = Episode.find_by(api_id: params[:id])
+    if ep = @user.episodes.find {|ep| ep.api_id == @episode.api_id}
+      deleted_episode = @user.episodes.delete(ep)
     end
 
     if deleted_episode
@@ -81,11 +86,7 @@ class Api::V1::EpisodesController < ApplicationController
   end
 
   def set_season
-    @season = Season.find_by(api_id: params[:season_id])
-  end
-
-  def set_episode
-    @episode = Episode.find_by(api_id: params[:id])
+    @season = Season.find_or_create_by(api_id: params[:season_id])
   end
 
   def set_user

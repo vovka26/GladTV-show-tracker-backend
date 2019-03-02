@@ -3,7 +3,7 @@ Rails.application.routes.draw do
     namespace :v1 do
 
       resources :shows, only: [:index, :create]
-      resources :episodes, only: [:create]
+      resources :episodes, only: [:index, :create]
 
       get '/shows/:show_id/episodes', to: 'episodes#get_episodes_for_season'
 
