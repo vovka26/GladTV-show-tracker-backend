@@ -95,7 +95,7 @@ class Api::V1::ShowsController < ApplicationController
   def url_to_show_details
     id = params[:id]
 
-    'https://api.themoviedb.org/3/tv/'+id+'?api_key='+api_key+'&language=en-US'
+    'https://api.themoviedb.org/3/tv/'+id+'?api_key='+api_key+'&language=en-US&append_to_response=credits'
   end
 
   private
