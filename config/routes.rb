@@ -15,6 +15,7 @@ Rails.application.routes.draw do
       # delete '/shows/episodes/:id', to: 'episodes#delete_from_users_watchlist'
 
       get '/apishows', to: 'shows#find_shows'
+      get '/apishows/popular', to: 'shows#get_popular_shows'
       get '/apishows/:id', to: 'shows#show_details'
 
       get '/seasons/:showId', to: 'seasons#all_seasons'

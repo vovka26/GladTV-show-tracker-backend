@@ -62,7 +62,11 @@ class Api::V1::ShowsController < ApplicationController
         error: true
       }
     end
+  end
 
+  def get_popular_shows
+    response = get_info_from_api(url_to_popular_shows)
+    render json: response
   end
 
   def find_shows
@@ -96,6 +100,10 @@ class Api::V1::ShowsController < ApplicationController
     id = params[:id]
 
     'https://api.themoviedb.org/3/tv/'+id+'?api_key='+api_key+'&language=en-US&append_to_response=credits'
+  end
+
+  def url_to_popular_shows
+    'https://api.themoviedb.org/3/tv/popular?api_key='+api_key
   end
 
   private
