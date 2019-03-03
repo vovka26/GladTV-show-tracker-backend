@@ -6,8 +6,7 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-user = User.create(username: 'hey', password: 'hey', first_name: 'Vladimir', last_name: 'Deryuzhenko')
-user2 = User.create(username: 'vlad', password: 'hey')
+user = User.create(username: 'vlad', password: 'hey', first_name: 'Vladimir', last_name: 'Deryuzhenko')
 
 # show = Show.create(title: 'The Walking Dead', rating: 5, genre: 'Comedy', api_id: 43242342, image_url: 'http://')
 #

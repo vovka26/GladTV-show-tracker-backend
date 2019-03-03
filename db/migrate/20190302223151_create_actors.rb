@@ -1,10 +1,10 @@
 class CreateActors < ActiveRecord::Migration[5.2]
   def change
     create_table :actors do |t|
-      t.string :first_name
-      t.string :last_name
-      t.integer :api_id
+      t.string :name
       t.string :gender
+      t.string :image_url
+      t.integer :api_id
 
       t.timestamps
     end
