@@ -4,7 +4,7 @@ Rails.application.routes.draw do
 
       resources :shows, only: [:index, :create]
       resources :episodes, only: [:create]
-      resources :actors, only: [:index]
+      resources :actors, only: [:show]
 
       get '/shows/:show_id/episodes', to: 'episodes#get_episodes_for_season'
 
@@ -20,12 +20,11 @@ Rails.application.routes.draw do
       get '/seasons/:showId', to: 'seasons#all_seasons'
       get '/seasons/:showId/:seasonId', to: 'seasons#season_data'
 
-      resources :users, only: [:create]
+
       post '/login', to: 'auth#create'
 
       get '/profile', to: 'users#profile'
       post '/newUser', to: 'users#create'
-
     end
   end
 end
