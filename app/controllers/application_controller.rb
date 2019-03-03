@@ -12,4 +12,9 @@ class ApplicationController < ActionController::API
     #returns payload
     JWT.decode(token, secret_key, true, {algorithm: 'HS256'})[0]
   end
+
+  def api_key
+    key = Rails.application.credentials.development[:movies_secret_key_base]
+  end
+  
 end

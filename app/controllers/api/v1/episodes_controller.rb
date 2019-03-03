@@ -69,10 +69,6 @@ class Api::V1::EpisodesController < ApplicationController
 
   private
 
-  def api_key
-    key = Rails.application.credentials.development[:movies_secret_key_base]
-  end
-
   def episode_params
     params.require(:episode).permit(:title, :image_url, :air_date, :api_id, :show_id, :season_id)
   end

@@ -7,7 +7,7 @@ class Api::V1::SeasonsController < ApplicationController
   # end
 
   def all_seasons
-    
+
   end
 
   def season_data
@@ -27,9 +27,4 @@ class Api::V1::SeasonsController < ApplicationController
     'https://api.themoviedb.org/3/tv/'+showId+'/season/'+seasonId+'?api_key='+api_key+'&language=en-US'
   end
 
-  private
-
-  def api_key
-    key = Rails.application.credentials.development[:movies_secret_key_base]
-  end
 end

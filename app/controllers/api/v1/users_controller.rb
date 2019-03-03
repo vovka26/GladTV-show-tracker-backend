@@ -1,5 +1,6 @@
 class Api::V1::UsersController < ApplicationController
   before_action :find_user, only: [:profile, :user_shows]
+
   def profile
     render json: {
       userData: @user,

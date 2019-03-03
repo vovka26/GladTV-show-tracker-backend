@@ -4,6 +4,7 @@ Rails.application.routes.draw do
 
       resources :shows, only: [:index, :create]
       resources :episodes, only: [:create]
+      resources :actors, only: [:index]
 
       get '/shows/:show_id/episodes', to: 'episodes#get_episodes_for_season'
 

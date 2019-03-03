@@ -100,10 +100,6 @@ class Api::V1::ShowsController < ApplicationController
 
   private
 
-  def api_key
-    key = Rails.application.credentials.development[:movies_secret_key_base]
-  end
-
   def show_params
     params.require(:show).permit(:title, :rating, :genre, :image_url, :api_id)
   end
