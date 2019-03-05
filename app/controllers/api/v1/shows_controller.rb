@@ -7,7 +7,6 @@ class Api::V1::ShowsController < ApplicationController
     render json: @shows
   end
 
-
   # checks if the show is already in DB. if it is, only adds show to user's watchlist array.
   # if the show is not in DB, it creates a record and adds to watchlist
   def create
@@ -64,6 +63,11 @@ class Api::V1::ShowsController < ApplicationController
     end
   end
 
+  def get_similar_shows
+    response = get_info_from_api(url_to_similar_shows)
+    render json: response
+  end
+
   def get_popular_shows
     response = get_info_from_api(url_to_popular_shows)
     render json: response
@@ -96,10 +100,22 @@ class Api::V1::ShowsController < ApplicationController
     'https://api.themoviedb.org/3/search/tv?api_key='+api_key+'&language=en-US&query='+query+'&page='+page
   end
 
+  def url_to_similar_shows
+    id = params[:id]
+
+    if params[:page] == nil
+      page = '1'
+    else
+      page = params[:page]
+    end
+
+    'https://api.themoviedb.org/3/tv/'+id+'/similar?api_key='+api_key+'&language=en-US&page='+page
+  end
+
   def url_to_show_details
     id = params[:id]
 
-    'https://api.themoviedb.org/3/tv/'+id+'?api_key='+api_key+'&language=en-US&append_to_response=credits'
+    'https://api.themoviedb.org/3/tv/'+id+'?api_key='+api_key+'&language=en-US&append_to_response=credits%2Cvideos'
   end
 
   def url_to_popular_shows
