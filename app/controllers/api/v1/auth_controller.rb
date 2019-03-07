@@ -1,6 +1,5 @@
 class Api::V1::AuthController < ApplicationController
   def create # POST /api/v1/login
-    byebug
     @user = User.find_by(username: params[:username])
     # byebug
     if @user && @user.authenticate(params[:password])
