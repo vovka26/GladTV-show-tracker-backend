@@ -16,5 +16,5 @@ class ApplicationController < ActionController::API
   def api_key
     key = Rails.application.credentials.development[:movies_secret_key_base]
   end
-  
+
 end

@@ -1,19 +1,20 @@
 class Api::V1::UsersController < ApplicationController
   before_action :find_user, only: [:profile, :user_shows]
 
-  def profile
-    render json: {
-      userData: @user,
-      success: true,
-      error: false
-    }, status: :accepted
-  end
+  # def profile
+  #   render json: {
+  #     userData: @user,
+  #     success: true,
+  #     error: false
+  #   }, status: :accepted
+  # end
 
   def user_shows
     render json: @user.shows
   end
 
   def create
+    byebug
     @user = User.create(user_params)
     if @user.valid?
       render json: {
