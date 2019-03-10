@@ -1,6 +1,6 @@
 class Api::V1::EpisodesController < ApplicationController
   before_action :set_user, only: [:index, :create, :delete_from_users_watchlist, :get_episodes_for_season]
-  before_action :set_show, only: [:get_episodes_for_season, :create]
+  before_action :set_show, only: [:get_episodes_for_season]
   before_action :set_season, only: [:create]
 
   def index
@@ -20,6 +20,7 @@ class Api::V1::EpisodesController < ApplicationController
   end
 
   def create
+    set_show
     @episode = Episode.find_by(api_id: params[:api_id])
     if @episode
       @episode
